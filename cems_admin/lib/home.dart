@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cems_admin/demo.dart';
+import 'package:cems_admin/host.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
@@ -18,7 +19,7 @@ class _AdminNavigationState extends State<AdminNavigation> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    Demo(),
+    Host(),
     Demo(),
     Demo(),
     Text(

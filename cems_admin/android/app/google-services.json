@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "697265482997",
+    "project_id": "eventmanagement-7d33f",
+    "storage_bucket": "eventmanagement-7d33f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697265482997:android:1d7ce30b7a04eeb55229bc",
+        "android_client_info": {
+          "package_name": "com.example.cems"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697265482997-undum2rtev2o01ec2bbt94abupsniv3g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgprAYEc45NgfMyGLzMqRIw3tKAvYm8Z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "697265482997-undum2rtev2o01ec2bbt94abupsniv3g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697265482997:android:826ffec9774365765229bc",
+        "android_client_info": {
+          "package_name": "com.example.cems_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697265482997-undum2rtev2o01ec2bbt94abupsniv3g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgprAYEc45NgfMyGLzMqRIw3tKAvYm8Z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "697265482997-undum2rtev2o01ec2bbt94abupsniv3g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

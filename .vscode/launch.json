@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "cems_admin",
+            "cwd": "cems_admin",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "cems_admin (profile mode)",
+            "cwd": "cems_admin",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "cems_admin (release mode)",
+            "cwd": "cems_admin",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

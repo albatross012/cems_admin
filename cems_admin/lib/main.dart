@@ -1,9 +1,12 @@
 import 'package:cems_admin/home.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -45,8 +48,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2)).then((value) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => AdminNavigation()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const AdminNavigation()));
     });
   }
 
@@ -63,7 +66,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 child: Text(
                   'CEMS',
                   style: GoogleFonts.iceberg(
-                    color: Color.fromARGB(255, 203, 108, 188).withOpacity(0.8),
+                    color: const Color.fromARGB(255, 203, 108, 188)
+                        .withOpacity(0.8),
                     fontSize: 68,
                     fontWeight: FontWeight.w200,
                   ),

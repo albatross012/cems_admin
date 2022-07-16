@@ -4,6 +4,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:cems_admin/home.dart';
 import 'package:cems_admin/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -15,25 +16,29 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 Future<String?> uploadImageAndGetUrl() async {
-  final picker = ImagePicker();
-  final image = await picker.pickImage(source: ImageSource.gallery);
-  if (image != null) {
-    File file = File(image.path);
-    final ref = FirebaseStorage.instance
-        .ref('/profile_images/${DateTime.now().millisecondsSinceEpoch}');
-    final metadata = SettableMetadata(
-      contentType: 'image/jpeg',
-      customMetadata: {'picked-file-path': file.path},
-    );
-    log("her");
-    final url = await ref.putFile(File(file.path), metadata).then((p0) async {
-      log("herer");
-      return (await p0.ref.getDownloadURL());
-    });
-    log(url);
-    return url;
+  try {
+    final picker = ImagePicker();
+    final image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      File file = File(image.path);
+      final ref = FirebaseStorage.instance
+          .ref('/profile_images/${DateTime.now().millisecondsSinceEpoch}');
+      final metadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': file.path},
+      );
+      log("her");
+      final url = await ref.putFile(File(file.path), metadata).then((p0) async {
+        log("herer");
+        return (await p0.ref.getDownloadURL());
+      });
+      log(url);
+      return url;
+    }
+    return null;
+  } catch (e) {
+    return null;
   }
-  return null;
 }
 
 Future<Event?> createEvent(List<String> imageUrl, String eventName,
@@ -61,11 +66,11 @@ Future<Event?> createEvent(List<String> imageUrl, String eventName,
       );
       return null;
     } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Event Created Sucessfully"),
-          content: Text(jsonDecode(response.body)["message"]),
+      Navigator.popUntil(context, (route) => route.isFirst);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AdminNavigation(),
         ),
       );
     }
@@ -99,7 +104,7 @@ class Event {
     return Event(
       eventName: json['eventName'],
       description: json['description'],
-      imageUrl: json['imageUrl'],
+      imageUrl: json['imageUrl'].map<String>((e) => e.toString()).toList(),
     );
   }
 }
@@ -117,7 +122,7 @@ class _NewEventState extends State<NewEvent> {
   List<String> imageUrl = [];
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
-  bool isBusy = false;
+  bool isUploading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -193,34 +198,48 @@ class _NewEventState extends State<NewEvent> {
                                 children: [
                                   ...[
                                     GestureDetector(
-                                      onTap: () async {
-                                        await uploadImageAndGetUrl()
-                                            .then((value) {
-                                          log(value.toString());
-                                          setState(() {
-                                            if (imageUrl != null) {
-                                              imageUrl.add(value!);
-                                            }
-                                          });
-                                        });
-                                      },
+                                      onTap: isUploading
+                                          ? null
+                                          : () async {
+                                              setState(() {
+                                                isUploading = true;
+                                              });
+                                              await uploadImageAndGetUrl()
+                                                  .then((value) {
+                                                log(value.toString());
+                                                setState(() {
+                                                  if (imageUrl != null) {
+                                                    imageUrl.add(value!);
+                                                  }
+                                                });
+                                              });
+                                              setState(() {
+                                                isUploading = false;
+                                              });
+                                            },
                                       child: Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.grey.withOpacity(0.6),
+                                            color: Color(0xff36CDC6)
+                                                .withOpacity(0.6),
                                             borderRadius:
                                                 BorderRadius.circular(18),
                                             border: Border.all(width: 1),
                                           ),
                                           height: 200,
                                           width: 200,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(Icons.tap_and_play),
-                                              Text("Tap to add image")
-                                            ],
-                                          )),
+                                          child: isUploading
+                                              ? Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                )
+                                              : Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(Icons.tap_and_play),
+                                                    Text("Tap to add image")
+                                                  ],
+                                                )),
                                     )
                                   ],
                                   ...imageUrl.map((e) => Row(
@@ -298,30 +317,34 @@ class _NewEventState extends State<NewEvent> {
                 ),
               ),
             ),
-            if (isBusy || isLoading)
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white60,
-                ),
-                child: Center(
-                  child: SpinKitCircle(
-                    size: 60,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: index.isEven
-                                ? const Color(0xff36CDC6)
-                                : const Color.fromARGB(255, 255, 255, 255),
+            if (isLoading)
+              Center(
+                child: Container(
+                  height: MediaQuery.of(context).size.height - 80,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8),
+                  ),
+                  child: Center(
+                    child: SpinKitCircle(
+                      size: 80,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(0.9),
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: index.isEven
+                                  ? const Color(0xff36CDC6)
+                                  : const Color.fromARGB(255, 255, 255, 255),
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
-              )
+              ),
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:cems_admin/activeEvent.dart';
 import 'package:cems_admin/newevent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -15,20 +16,38 @@ class _HostState extends State<Host> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => NewEvent()),
-              );
-            },
-            child: const Text(
-              "Create new event",
-              style: TextStyle(
-                color: Color(0xff36CDC6),
-                fontSize: 35,
-              ),
-            )),
+        child: Column(
+          children: [
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NewEvent()),
+                  );
+                },
+                child: const Text(
+                  "Create new event",
+                  style: TextStyle(
+                    color: Color(0xff36CDC6),
+                    fontSize: 35,
+                  ),
+                )),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ActiveEvent()),
+                  );
+                },
+                child: const Text(
+                  "Active Event",
+                  style: TextStyle(
+                    color: Color(0xff36CDC6),
+                    fontSize: 35,
+                  ),
+                )),
+          ],
+        ),
       ),
     );
   }

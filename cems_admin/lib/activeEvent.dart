@@ -59,9 +59,38 @@ class _ActiveEventState extends State<ActiveEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xff36CDC6),
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const NewEvent()),
+          );
+        },
+        child: Container(
+          height: 100,
+          width: 100,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+          ),
+          child: const Center(
+            child: Icon(
+              Icons.add,
+              color: Color(0xff36CDC6),
+              size: 75,
+            ),
+          ),
+        ),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: Colors.white,
+      //   onPressed: () {},
+      //   child: const Icon(
+      //     Icons.add,
+      //     color: Color(0xff36CDC6),
+      //     size: 50,
+      //   ),
+      // ),
       body: isLoading
           ? const Center(
               child: CupertinoActivityIndicator(
@@ -77,14 +106,14 @@ class _ActiveEventState extends State<ActiveEvent> {
                     height: MediaQuery.of(context).size.height,
                     child: Material(
                       child: ListView.builder(
-                        padding: EdgeInsets.only(bottom: 200),
+                        padding: const EdgeInsets.only(bottom: 200),
                         itemBuilder: (context, index) => Container(
-                          margin: EdgeInsets.all(8),
+                          margin: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
-                                offset: Offset(1, -1),
+                                offset: const Offset(1, -1),
                                 color: Colors.black.withAlpha(40),
                               )
                             ],
@@ -97,7 +126,7 @@ class _ActiveEventState extends State<ActiveEvent> {
                             children: [
                               ImageSlideshow(
                                 width: double.infinity,
-                                height: 300,
+                                height: 500,
                                 initialPage: 0,
                                 indicatorColor: Colors.blue,
                                 indicatorBackgroundColor: Colors.grey,
@@ -134,6 +163,50 @@ class _ActiveEventState extends State<ActiveEvent> {
                                     fontWeight: FontWeight.w400,
                                     color: Colors.grey,
                                   ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 110, vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    MaterialButton(
+                                      onPressed: () {},
+                                      minWidth: 100,
+                                      height: 50,
+                                      color: const Color(0xff36CDC6),
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(19),
+                                      ),
+                                      child: const Text(
+                                        "DELETE",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 32,
+                                        ),
+                                      ),
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {},
+                                      minWidth: 100,
+                                      height: 50,
+                                      color: const Color(0xff36CDC6),
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(19),
+                                      ),
+                                      child: const Text(
+                                        "EDIT",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 32,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],

@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:cems_admin/demo.dart';
+import 'package:cems_admin/feed.dart';
 import 'package:cems_admin/host.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
-import 'package:google_fonts/google_fonts.dart';
 
 class AdminNavigation extends StatefulWidget {
   const AdminNavigation({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _AdminNavigationState extends State<AdminNavigation> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Host(),
-    Demo(),
+    Feed(),
     Demo(),
     Text(
       'History',
@@ -107,7 +107,7 @@ class _AdminNavigationState extends State<AdminNavigation> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.edit),
-              label: 'Edit',
+              label: 'Feed',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.manage_accounts),

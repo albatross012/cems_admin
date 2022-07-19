@@ -1,39 +1,40 @@
-// ignore: file_names
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
-import 'package:http/http.dart' as http;
-import 'package:cems_admin/main.dart';
-import 'package:cems_admin/newevent.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class ActiveEvent extends StatefulWidget {
-  const ActiveEvent({Key? key}) : super(key: key);
+import 'package:cems_admin/main.dart';
+import 'package:cems_admin/newfeed.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+
+class ActiveFeed extends StatefulWidget {
+  const ActiveFeed({Key? key}) : super(key: key);
 
   @override
-  State<ActiveEvent> createState() => _ActiveEventState();
+  State<ActiveFeed> createState() => _ActiveFeedState();
 }
 
-class _ActiveEventState extends State<ActiveEvent> {
-  List<Event> events = [];
+class _ActiveFeedState extends State<ActiveFeed> {
+  List<Feeds> feeds = [];
   bool isLoading = true;
   final storage = const FlutterSecureStorage();
   Future<bool> getEvents() async {
     try {
-      var url = Uri.parse('$releaseUrl/events/getevents');
+      var url = Uri.parse('$releaseUrl/feeds/getfeeds');
       var response = await http.get(
         url,
       );
       log('Response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         setState(() {
-          events = jsonDecode(response.body)["events"]
-              .map<Event>((e) => Event.fromJson(e))
+          feeds = jsonDecode(response.body)["events"]
+              .map<Feeds>((e) => Feeds.fromJson(e))
               .toList();
-          events = events.reversed.toList();
+          feeds = feeds.reversed.toList();
         });
         return true;
       } else {
@@ -101,7 +102,7 @@ class _ActiveEventState extends State<ActiveEvent> {
                                 initialPage: 0,
                                 indicatorColor: Colors.blue,
                                 indicatorBackgroundColor: Colors.grey,
-                                children: events[index]
+                                children: feeds[index]
                                     .imageUrl
                                     .map((e) => Container(
                                           height: 300,
@@ -115,31 +116,10 @@ class _ActiveEventState extends State<ActiveEvent> {
                                         ))
                                     .toList(),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  events[index].eventName.toString(),
-                                  style: GoogleFonts.roboto(
-                                    fontSize: 23,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  events[index].description.toString(),
-                                  style: GoogleFonts.roboto(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
                         ),
-                        itemCount: events.length,
+                        itemCount: feeds.length,
                       ),
                     ),
                   ),

@@ -60,8 +60,28 @@ class _ActiveFeedState extends State<ActiveFeed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xff36CDC6),
+      floatingActionButton: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const NewFeed()),
+          );
+        },
+        child: Container(
+          height: 100,
+          width: 100,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+          ),
+          child: const Center(
+            child: Icon(
+              Icons.add,
+              color: Color(0xff36CDC6),
+              size: 75,
+            ),
+          ),
+        ),
       ),
       body: isLoading
           ? const Center(
@@ -115,6 +135,50 @@ class _ActiveFeedState extends State<ActiveFeed> {
                                           ),
                                         ))
                                     .toList(),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 110, vertical: 10),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    MaterialButton(
+                                      onPressed: () {},
+                                      minWidth: 100,
+                                      height: 50,
+                                      color: const Color(0xff36CDC6),
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(19),
+                                      ),
+                                      child: const Text(
+                                        "DELETE",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 32,
+                                        ),
+                                      ),
+                                    ),
+                                    MaterialButton(
+                                      onPressed: () {},
+                                      minWidth: 100,
+                                      height: 50,
+                                      color: const Color(0xff36CDC6),
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(19),
+                                      ),
+                                      child: const Text(
+                                        "EDIT",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 32,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),

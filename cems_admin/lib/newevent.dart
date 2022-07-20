@@ -93,19 +93,21 @@ class Event {
   final String description;
   final String eventName;
   final List<String> imageUrl;
+  final String id;
 
   const Event(
       {required this.eventName,
       required this.description,
-      required this.imageUrl});
+      required this.imageUrl,
+      required this.id});
 
   factory Event.fromJson(Map<String, dynamic> json) {
     log(json.toString());
     return Event(
-      eventName: json['eventName'],
-      description: json['description'],
-      imageUrl: json['imageUrl'].map<String>((e) => e.toString()).toList(),
-    );
+        eventName: json['eventName'],
+        description: json['description'],
+        imageUrl: json['imageUrl'].map<String>((e) => e.toString()).toList(),
+        id: json['_id']);
   }
 }
 

@@ -1,9 +1,8 @@
 import 'dart:developer';
 
 import 'package:cems_admin/activeEvent.dart';
-import 'package:cems_admin/demo.dart';
-import 'package:cems_admin/feed.dart';
-import 'package:cems_admin/host.dart';
+import 'package:cems_admin/activefeed.dart';
+import 'package:cems_admin/register_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // ignore: depend_on_referenced_packages
@@ -21,8 +20,8 @@ class _AdminNavigationState extends State<AdminNavigation> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     ActiveEvent(),
-    Feed(),
-    Demo(),
+    ActiveFeed(),
+    RegisterDetail(),
     Text(
       'History',
       style: optionStyle,
@@ -103,12 +102,12 @@ class _AdminNavigationState extends State<AdminNavigation> {
         bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              label: 'Host',
+              icon: Icon(Icons.event),
+              label: 'Events',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.edit),
-              label: 'Feed',
+              icon: Icon(Icons.feed),
+              label: 'Feeds',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.manage_accounts),

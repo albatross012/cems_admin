@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cems_admin/activeEvent.dart';
 import 'package:cems_admin/activefeed.dart';
 import 'package:cems_admin/register_detail.dart';

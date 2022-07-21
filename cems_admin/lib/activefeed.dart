@@ -139,45 +139,24 @@ class _ActiveFeedState extends State<ActiveFeed> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 110, vertical: 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    MaterialButton(
-                                      onPressed: () {},
-                                      minWidth: 100,
-                                      height: 50,
-                                      color: const Color(0xff36CDC6),
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(19),
-                                      ),
-                                      child: const Text(
-                                        "DELETE",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 32,
-                                        ),
+                                child: Center(
+                                  child: MaterialButton(
+                                    onPressed: () {},
+                                    minWidth: 100,
+                                    height: 50,
+                                    color: const Color(0xff36CDC6),
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(19),
+                                    ),
+                                    child: const Text(
+                                      "DELETE",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 32,
                                       ),
                                     ),
-                                    MaterialButton(
-                                      onPressed: () {},
-                                      minWidth: 100,
-                                      height: 50,
-                                      color: const Color(0xff36CDC6),
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(19),
-                                      ),
-                                      child: const Text(
-                                        "EDIT",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 32,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ],

@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:http/http.dart' as http;
 import 'package:cems_admin/main.dart';
@@ -9,6 +10,52 @@ import 'package:cems_admin/newevent.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+Future<Event?> deleteEvent(String id, BuildContext context) async {
+  try {
+    final response = await http.post(
+      Uri.parse('$releaseUrl/events/delete'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'id': id,
+      }),
+    );
+    log(response.statusCode.toString());
+    if (response.statusCode != 200) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Alert"),
+          content: Text(jsonDecode(response.body)["message"]),
+        ),
+      );
+      return null;
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialog(
+          title: Text("Deleted"),
+          content: Text("Event deleted Successfully"),
+        ),
+      );
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print(e.toString());
+    }
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Error!"),
+        content: Text(e.toString()),
+      ),
+    );
+    return null;
+  }
+  return null;
+}
 
 class ActiveEvent extends StatefulWidget {
   const ActiveEvent({Key? key}) : super(key: key);
@@ -20,6 +67,7 @@ class ActiveEvent extends StatefulWidget {
 class _ActiveEventState extends State<ActiveEvent> {
   List<Event> events = [];
   bool isLoading = true;
+  bool isBusy = false;
   final storage = const FlutterSecureStorage();
   Future<bool> getEvents() async {
     try {
@@ -91,7 +139,7 @@ class _ActiveEventState extends State<ActiveEvent> {
       //     size: 50,
       //   ),
       // ),
-      body: isLoading
+      body: isLoading || isBusy
           ? const Center(
               child: CupertinoActivityIndicator(
                 color: Color(0xff36CDC6),
@@ -168,45 +216,35 @@ class _ActiveEventState extends State<ActiveEvent> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 110, vertical: 10),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    MaterialButton(
-                                      onPressed: () {},
-                                      minWidth: 100,
-                                      height: 50,
-                                      color: const Color(0xff36CDC6),
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(19),
-                                      ),
-                                      child: const Text(
-                                        "DELETE",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 32,
-                                        ),
+                                child: Center(
+                                  child: MaterialButton(
+                                    onPressed: () async {
+                                      setState(() {
+                                        isBusy = false;
+                                      });
+                                      await deleteEvent(
+                                          events[index].id, context);
+                                      if (mounted) {
+                                        setState(() {
+                                          isBusy = false;
+                                        });
+                                      }
+                                    },
+                                    minWidth: 100,
+                                    height: 50,
+                                    color: const Color(0xff36CDC6),
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(19),
+                                    ),
+                                    child: const Text(
+                                      "DELETE",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 32,
                                       ),
                                     ),
-                                    MaterialButton(
-                                      onPressed: () {},
-                                      minWidth: 100,
-                                      height: 50,
-                                      color: const Color(0xff36CDC6),
-                                      elevation: 0,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(19),
-                                      ),
-                                      child: const Text(
-                                        "EDIT",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 32,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ],

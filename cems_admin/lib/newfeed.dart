@@ -85,13 +85,15 @@ Future<Feeds?> createFeeds(List<String> imageUrl, BuildContext context) async {
 
 class Feeds {
   final List<String> imageUrl;
+  final String id;
 
-  const Feeds({required this.imageUrl});
+  const Feeds({required this.imageUrl, required this.id});
 
   factory Feeds.fromJson(Map<String, dynamic> json) {
     log(json.toString());
     return Feeds(
       imageUrl: json['imageUrl'].map<String>((e) => e.toString()).toList(),
+      id: json['_id'],
     );
   }
 }

@@ -4,12 +4,59 @@ import 'dart:developer';
 import 'package:cems_admin/main.dart';
 import 'package:cems_admin/newfeed.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+
+Future<Feeds?> deleteEvent(String id, BuildContext context) async {
+  try {
+    final response = await http.post(
+      Uri.parse('$releaseUrl/feeds/delete'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'id': id,
+      }),
+    );
+    log(response.statusCode.toString());
+    if (response.statusCode != 200) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Alert"),
+          content: Text(jsonDecode(response.body)["message"]),
+        ),
+      );
+      return null;
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => const AlertDialog(
+          title: Text("Deleted"),
+          content: Text("Event deleted Successfully"),
+        ),
+      );
+    }
+  } catch (e) {
+    if (kDebugMode) {
+      print(e.toString());
+    }
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Error!"),
+        content: Text(e.toString()),
+      ),
+    );
+    return null;
+  }
+  return null;
+}
 
 class ActiveFeed extends StatefulWidget {
   const ActiveFeed({Key? key}) : super(key: key);
@@ -21,6 +68,7 @@ class ActiveFeed extends StatefulWidget {
 class _ActiveFeedState extends State<ActiveFeed> {
   List<Feeds> feeds = [];
   bool isLoading = true;
+  bool isBusy = false;
   final storage = const FlutterSecureStorage();
   Future<bool> getEvents() async {
     try {
@@ -141,7 +189,18 @@ class _ActiveFeedState extends State<ActiveFeed> {
                                     horizontal: 110, vertical: 10),
                                 child: Center(
                                   child: MaterialButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      setState(() {
+                                        isBusy = false;
+                                      });
+                                      await deleteEvent(
+                                          feeds[index].id, context);
+                                      if (mounted) {
+                                        setState(() {
+                                          isBusy = false;
+                                        });
+                                      }
+                                    },
                                     minWidth: 100,
                                     height: 50,
                                     color: const Color(0xff36CDC6),

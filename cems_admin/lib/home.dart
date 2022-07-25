@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cems_admin/activeEvent.dart';
 import 'package:cems_admin/activefeed.dart';
+import 'package:cems_admin/login.dart';
 import 'package:cems_admin/register_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,14 +22,6 @@ class _AdminNavigationState extends State<AdminNavigation> {
     ActiveEvent(),
     ActiveFeed(),
     RegisterDetail(),
-    Text(
-      'History',
-      style: optionStyle,
-    ),
-    Text(
-      'Results',
-      style: optionStyle,
-    ),
   ];
 
   void _onItemTapped(int index) {
@@ -79,7 +72,15 @@ class _AdminNavigationState extends State<AdminNavigation> {
                   // ...
                 },
               ),
-              const ListTile(title: Text('mbits'))
+              const ListTile(title: Text('mbits')),
+              //exit to loginscreen
+              ListTile(
+                title: const Text('Logout'),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => const Login())));
+                },
+              ),
             ],
           ),
         ),
@@ -109,14 +110,9 @@ class _AdminNavigationState extends State<AdminNavigation> {
               label: 'Feeds',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.manage_accounts),
-              label: 'Manage',
-            ),
-            BottomNavigationBarItem(
               icon: Icon(Icons.list_alt_outlined),
-              label: 'Report',
+              label: 'List',
             ),
-            BottomNavigationBarItem(icon: Icon(Icons.badge), label: 'Results')
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: const Color(0xff36CDC6),

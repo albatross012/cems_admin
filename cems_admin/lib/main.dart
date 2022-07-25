@@ -1,4 +1,5 @@
 import 'package:cems_admin/home.dart';
+import 'package:cems_admin/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -49,10 +50,18 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2)).then((value) {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => const AdminNavigation()));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const Login()));
     });
   }
+  //  @override
+  // void initState() {
+  //   super.initState();
+  //   Future.delayed(const Duration(seconds: 2)).then((value) {
+  //     Navigator.pushReplacement(context,
+  //         MaterialPageRoute(builder: (context) => const AdminNavigation()));
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
